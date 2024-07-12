@@ -9,6 +9,7 @@ from users.serializer import UserSerializer, PaymentSerializer
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    permission_classes = []
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
