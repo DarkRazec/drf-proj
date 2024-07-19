@@ -23,7 +23,7 @@ class Lesson(models.Model):
     name = models.CharField(max_length=60, verbose_name="название")
     desc = models.TextField(verbose_name="описание")
     preview = models.ImageField(upload_to='previews', verbose_name="превью", **NULLABLE)
-    url = models.URLField(verbose_name="ссылка", **NULLABLE)
+    url = models.URLField(verbose_name="ссылка")
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Курс')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name="автор", **NULLABLE)
 
