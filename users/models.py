@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from config import settings
 from materials.models import Course, Lesson
 
 NULLABLE = {'blank': True, 'null': True}
@@ -30,16 +31,17 @@ class Payment(models.Model):
     date = models.DateField(auto_now_add=True, verbose_name='дата оплаты')
     course = models.ForeignKey(Course, verbose_name='курс', on_delete=models.SET_NULL, **NULLABLE)
     lesson = models.ForeignKey(Lesson, verbose_name='урок', on_delete=models.SET_NULL, **NULLABLE)
-    sum = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name='сумма оплаты', **NULLABLE)
+    payment_sum = models.PositiveIntegerField(verbose_name='сумма оплаты', **NULLABLE)
     is_card = models.BooleanField(default=True, verbose_name='оплата переводом')
+    session_id = models.CharField(max_length=400, verbose_name='Id сессии', **NULLABLE)
+    link = models.URLField(max_length=400, verbose_name='Cсылка на оплату', **NULLABLE)
 
     def __str__(self):
         return f'{self.course if self.course else self.lesson}'
 
     class Meta:
-        verbose_name = 'оплата'
-        verbose_name_plural = 'оплат'
-        ordering = ('user',)
+        verbose_name = 'платеж'
+        verbose_name_plural = 'платежи'
 
 
 class Subscription(models.Model):
