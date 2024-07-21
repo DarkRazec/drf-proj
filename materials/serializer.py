@@ -23,7 +23,7 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     @staticmethod
-    def get_lesson_count(obj):
+    def get_lesson_count(obj) -> int:
         return Lesson.objects.filter(course=obj).count()
 
 
