@@ -27,11 +27,11 @@ class User(AbstractUser):
 
 
 class Payment(models.Model):
-    user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE, **NULLABLE)
     date = models.DateField(auto_now_add=True, verbose_name='дата оплаты')
     course = models.ForeignKey(Course, verbose_name='курс', on_delete=models.SET_NULL, **NULLABLE)
     lesson = models.ForeignKey(Lesson, verbose_name='урок', on_delete=models.SET_NULL, **NULLABLE)
-    payment_sum = models.PositiveIntegerField(verbose_name='сумма оплаты', **NULLABLE)
+    payment_sum = models.PositiveIntegerField(verbose_name='сумма оплаты')
     is_card = models.BooleanField(default=True, verbose_name='оплата переводом')
     session_id = models.CharField(max_length=400, verbose_name='Id сессии', **NULLABLE)
     link = models.URLField(max_length=400, verbose_name='Cсылка на оплату', **NULLABLE)
@@ -45,7 +45,7 @@ class Payment(models.Model):
 
 
 class Subscription(models.Model):
-    user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE, **NULLABLE)
     course = models.ForeignKey(Course, verbose_name='курс', on_delete=models.CASCADE)
 
     def __str__(self):
