@@ -40,10 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
-    'rest_framework_simplejwt',
+    'django_celery_beat',
     'drf_spectacular',
-
     'rest_framework',
+    'rest_framework_simplejwt',
+
     'materials',
     'users',
 ]
@@ -157,3 +158,16 @@ SPECTACULAR_SETTINGS = {
 }
 
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
+
+# Celery settings
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_TIMEZONE = 'Europe/Moscow'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'users.tasks.check_user',  # Путь к задаче
+        'schedule': timedelta(minutes=1),
+    },
+}
