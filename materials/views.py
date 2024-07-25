@@ -9,6 +9,7 @@ from materials.paginators import MaterialsPaginator
 from users.models import Subscription
 from users.permissions import IsStaff, IsAuthor
 from materials.serializer import CourseSerializer, LessonSerializer, SubscriptionSerializer
+from users.tasks import send_sub_mail
 
 
 @extend_schema_view(
@@ -54,6 +55,11 @@ class CourseViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         self.object = serializer.save()
         self.object.author = self.request.user
+        self.object.save()
+
+    def perform_update(self, serializer):
+        self.object = serializer.save()
+        send_sub_mail(self.object)
         self.object.save()
 
     def get_permissions(self):
